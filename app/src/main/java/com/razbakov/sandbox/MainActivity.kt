@@ -1,9 +1,11 @@
-package com.razbakov.jetpack
+package com.razbakov.sandbox
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.razbakov.jetpack.ui.main.MainFragment
+import com.razbakov.sandbox.ui.main.MainFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

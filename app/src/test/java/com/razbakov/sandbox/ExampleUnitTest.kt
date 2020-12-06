@@ -1,4 +1,4 @@
-package com.razbakov.jetpack
+package com.razbakov.sandbox
 
 import org.junit.Test
 
