@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SQLAndroidSettings">
+    <option name="databases">
+      <map>
+        <entry key="db_C:\Git projects\Android-Jetpack-Sandbox\AndroidSqlEditorDatabases\">
+          <value>
+            <list>
+              <option value="710KPKN0162141" />
+              <option value="/databases/database" />
+              <option value="db" />
+              <option value="db" />
+              <option value="false" />
+              <option value="com.razbakov.sandbox" />
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="storageVersion" value="2" />
+  </component>
+</project>

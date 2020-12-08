@@ -35,7 +35,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         app:layout_constraintStart_toStartOf="@id/name"
         app:layout_constraintTop_toBottomOf="@id/url"
-        tools:text="Date" />
+        tools:text="Updated 15 min ago" />
 
     <ImageView
         android:id="@+id/status"

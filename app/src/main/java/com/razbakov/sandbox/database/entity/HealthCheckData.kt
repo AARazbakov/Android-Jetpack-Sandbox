@@ -10,6 +10,6 @@ data class HealthCheckData(
     @PrimaryKey(autoGenerate = true) val id: Long,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "url") val url: String,
-    @ColumnInfo(name = "time") val time: Date,
-    @ColumnInfo(name = "available") val available: Boolean
+    @ColumnInfo(name = "time") var time: Date,
+    @ColumnInfo(name = "available") var available: Boolean
 )

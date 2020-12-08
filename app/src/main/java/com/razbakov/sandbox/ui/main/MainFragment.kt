@@ -6,38 +6,39 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.razbakov.sandbox.R
-import com.razbakov.sandbox.database.entity.HealthCheckData
 import com.razbakov.sandbox.databinding.MainFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.util.*
 
-class MainFragment : Fragment(), HealthChecksAdapter.HealthChecksCallback {
+@AndroidEntryPoint
+class MainFragment : Fragment() {
 
     private lateinit var binding: MainFragmentBinding
-
-    companion object {
-        fun newInstance() = MainFragment()
-    }
-
+    private val listAdapter = HealthChecksAdapter()
     private val viewModel: MainViewModel by viewModels()
+    private var refreshJob: Job? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.healthDataList.observe(this, {
+            listAdapter.submitList(it)
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = MainFragmentBinding.inflate(inflater, container, false)
-        return binding.root
+        return MainFragmentBinding.inflate(inflater, container, false).also { binding = it }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.healthCheckList.apply {
-            adapter = HealthChecksAdapter(
-                requireContext(),
-                listOf(HealthCheckData(1, "Yandex", "https://yandex.ru/", Date(), true)),
-                this@MainFragment
-            )
+            adapter = listAdapter
             addItemDecoration(
                 DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
                     setDrawable(
@@ -49,9 +50,16 @@ class MainFragment : Fragment(), HealthChecksAdapter.HealthChecksCallback {
                 }
             )
         }
+        binding.swipeRefresh.setOnRefreshListener {
+            refreshJob?.cancel()
+            refreshJob = lifecycleScope.launch {
+                viewModel.refreshData()
+                binding.swipeRefresh.isRefreshing = false
+            }
+        }
     }
 
-    override fun onItemClicked(item: HealthCheckData) {
-//        TODO("Not yet implemented")
+    companion object {
+        fun newInstance() = MainFragment()
     }
 }

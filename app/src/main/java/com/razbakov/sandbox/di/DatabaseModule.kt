@@ -1,8 +1,8 @@
 package com.razbakov.sandbox.di
 
 import android.content.Context
-import androidx.room.Room
 import com.razbakov.sandbox.database.AppDatabase
+import com.razbakov.sandbox.database.dao.HealthCheckDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +16,10 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabase::class.java, "database").build()
+    fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase {
+        return AppDatabase.getInstance(appContext)
     }
+
+    @Provides
+    fun provideHealthCheckDao(appDatabase: AppDatabase): HealthCheckDao = appDatabase.healthCheckDao()
 }
